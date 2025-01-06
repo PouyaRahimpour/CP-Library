@@ -1,26 +1,28 @@
 #include<bits/stdc++.h>
-using namespace std;
-using ll = long long;
-using ld = long double;
-#ifdef LOCAL
-#include "/home/pouya/dev/cp/lib/debug.cpp"
+#ifndef LOCAL
+#define LINE
+#define fastio ios_base::sync_with_stdio(0);cin.tie(0);
 #else
-#define dbg(...)
-#define TC solve
+#define LINE cerr << "----------" << nl;
+#define fastio
 #endif
+using namespace std;
+using ll = long long; using ld = long double;
 #define nl '\n'
+#define arr array
+#define pb push_back
 
-void solve(int tc) {
-    //code here
+void solve() {
 }
 
 int32_t main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
+    fastio
     int t = 1;
-    cin >> t;
-    for (int i=1; i<=t; i++) {
-        TC(i);
+cin >> t;
+    while (t--) {
+        solve();
+        LINE
     }
     return 0;
 }
+
