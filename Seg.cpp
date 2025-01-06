@@ -23,9 +23,15 @@ struct Seg {
 		build(1, 1, n);
 	}
 	T make(V x) {
-		T res;
+        // Impl
+		T res = (T)x;
 		return res;
 	}
+    T combine(T& x, T& y) {
+        // Impl
+        T res = (T)x + (T)y;
+        return res;
+    }
 	void build(int v, int tl, int tr) {
 		if (tl == tr) {
 			t[v] = make(a[tl]);
@@ -35,10 +41,6 @@ struct Seg {
 		build(2*v, tl, md);
 		build(2*v+1, md+1, tr);
 		t[v] = combine(t[2*v], t[2*v+1]);
-	}
-	T combine(T& x, T& y) {
-		T res;
-		return res;
 	}
     // point update
 	void upd(int v, int tl, int tr, int pos, V val) {
