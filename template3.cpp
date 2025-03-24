@@ -2,7 +2,9 @@
 using namespace std;
 using ll = long long;
 using ld = long double;
-#ifdef LOCAL
+#define TESTCASE
+//#define TIME
+#ifdef DEBUG
 #include "/home/pouya/dev/cp/lib/debug.cpp"
 #else
 #define dbg(...)
@@ -24,3 +26,4 @@ int32_t main() {
     }
     return 0;
 }
+

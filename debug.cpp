@@ -5,12 +5,7 @@ using namespace std;
 //mt19937 rnd(chrono::steady_clock::now().time_since_epoch().count());
 //#define TIME cerr << endl << "finished in " << clock()*1.0/CLOCKS_PER_SEC << " sec" << endl;
 
-void solve(int);
-void TC(int tc) {
-    cerr << "------- TC " << tc << " -------\n";
-    solve(0);
-    cerr << "--------------------\n";
-}
+
 namespace __DEBUG_UTIL__ {
     const string WHITE = "\033[0;m";
     const string RED = "\033[0;31m";
@@ -130,6 +125,23 @@ namespace __DEBUG_UTIL__ {
         }
     }
 }
+
+#ifdef TESTCASE // this is becuase when working with generators sometimes I need debug but not testcases/solve
+void solve(int);
+void TC(int tc) {
+    cerr << __DEBUG_UTIL__::BLUE << "------- TC " << tc << " -------\n" << __DEBUG_UTIL__::white;
+#ifdef TIME
+    auto start = std::chrono::high_resolution_clock::now();
+#endif
+    solve(0);
+#ifdef TIME
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start);
+    cerr << __DEBUG_UTIL__::BLUE << (double)duration.count()/1000 << " sec\n" << __DEBUG_UTIL__::white;
+#endif
+    cerr << __DEBUG_UTIL__::BLUE << "--------------------\n" << __DEBUG_UTIL__::white;
+}
+#endif
 
 
 /************************************************/

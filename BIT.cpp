@@ -10,15 +10,17 @@ using ld = long double;
 #endif
 #define nl '\n'
 
+template<class T>
 struct BIT {
-    vector<int> t;
+    vector<T> t;
     int n;
     BIT(int _n) {
-        n = _n;
-        t.resize(n);
+        n = _n+1;
+        t.resize(n+1);
     }
-    int qry(int idx) {
-        int res = 0;
+    T qry(int idx) {
+        assert(idx >= 0); 
+        T res = 0;
         while (idx) {
             res += t[idx];
             idx -= idx&-idx;
@@ -36,7 +38,7 @@ struct BIT {
 
 void solve(int tc) {
     int n; cin >> n;
-    BIT bit = BIT(n);
+    BIT bit = BIT<ll>(n);
     bit.add(idx, delta);
     int ans = bit.qry(ridx)-bit.qry(lidx);
 }

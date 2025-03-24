@@ -12,21 +12,26 @@ using ld = long double;
 
 // V is type of input vector
 // T is datatype of tree nodes 
-// just implement {make, combine, I}
+// just implement {make, combine, push, I}
 template<class V, class T>
-struct Seg {
+struct LSeg {
 	vector<T> t;
+	vector<T> t1;
 	vector<V> a;
-	int n;
+    vector<bool> mark;
+    int n;
     T I;
-	Seg(const vector<V>& _a, const T& _I) {
+	LSeg(const vector<V>& _a, const T& _I) {
 		n = (int)_a.size();
         I = _I;
 		t.resize(4*n);
+        t1.resize(4*n);
+        mark.resize(4*n);
 		a.resize(n+1);
 		copy(_a.begin(), _a.end(), a.begin()+1);
 		build(1, 1, n);
 	}
+
 	T make(V x) {
         // TODO: Impl
 		T res = (T)x;
@@ -42,6 +47,21 @@ struct Seg {
          */
         return res;
     }
+    void push(int v, int tl, int tr) {
+        // TODO: impl
+        /* add
+         */
+        t[v] += t1[v]*(tr-tl+1);
+        /* min, max
+           t[v] += t1[v];
+         */
+
+        if (tl != tr) {
+            t1[2*v+1] = t1[2*v] = t1[v];
+            mark[2*v+1] = mark[2*v] = 1;
+        }
+        mark[v] = 0;
+    }
 	void build(int v, int tl, int tr) {
 		if (tl == tr) {
 			t[v] = make(a[tl]);
@@ -52,24 +72,13 @@ struct Seg {
 		build(2*v+1, md+1, tr);
 		t[v] = combine(t[2*v], t[2*v+1]);
 	}
-    // point update
-	void upd(int v, int tl, int tr, int pos, V val) {
-		if (tl == tr) {
-			t[v] = make(val);
-			a[pos] = val;
-			return;
-		}
-		int md = (tl+tr)/2;
-		if (pos <= md) {
-			upd(2*v, tl, md, pos, val);
-		} else {
-			upd(2*v+1, md+1, tr, pos, val);
-		}
-		t[v] = combine(t[2*v], t[2*v+1]);
-	}
+ 
+    
     // range query
 	T qry(int v, int tl, int tr, int l, int r) {
-	    if (r < tl || l > tr) {
+        if (mark[v]) push(v, tl, tr);
+
+        if (r < tl || l > tr) {
             return I; // identity of operator
         }
         if (l <= tl && tr <= r) {
@@ -80,7 +89,24 @@ struct Seg {
             qry(2*v, tl, md, l, r),
             qry(2*v+1, md+1, tr, l, r)
             );
-	}
+    }
+
+    // range update
+    void upd(int v, int tl, int tr, int l, int r, V val) {
+        if (mark[v]) push(v, tl, tr);
+        if (r < tl || l > tr) {
+            return;
+        }
+        if (l <= tl && tr <= r) {
+            t1[v] = val;
+            push(v, tl, tr);
+            return;
+        }
+        int md = (tl+tr)/2;
+        upd(2*v, tl, md, l, r, val);
+        upd(2*v+1, md+1, tr, l, r, val);
+        t[v] = combine(t[2*v], t[2*v+1]);
+    }
 };
 
 void solve(int tc) {
@@ -88,11 +114,12 @@ void solve(int tc) {
     vector<int> v(n);
     iota(v.begin(), v.end(), 0);
 
-    // Seg -> upd, qry both O(log n)
-    int idx = 5, delta = 3, l = 2, r = 7;
-    Seg seg = Seg<int, ll>(v, 0);
-    seg.upd(1, 1, n, idx, delta);
-    ll ans = seg.qry(1, 1, n, l, r);
+    // LSeg -> upd, qry both O(log n)
+    int val = 3;
+    LSeg lseg = LSeg<int, ll>(v, 0);
+    // update might be set or add by delta depending on how you implement "push"
+    lseg.upd(1, 1, n, l, r, val);
+    ans = lseg.qry(1, 1, n, l, r);
 }
 
 int32_t main() {
