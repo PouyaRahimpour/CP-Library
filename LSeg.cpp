@@ -12,68 +12,62 @@ using ld = long double;
 
 // V is type of input vector
 // T is datatype of tree nodes 
-// just implement {make, combine, push, I}
-template<class V, class T>
+// just implement {make, combine, merge, apply}
+template<class V, class T, class T1>
 struct LSeg {
 	vector<T> t;
-	vector<T> t1;
-	vector<V> a;
+	vector<T1> t1;
     vector<bool> mark;
-    int n;
     T I;
-	LSeg(const vector<V>& _a, const T& _I) {
-		n = (int)_a.size();
+    T1 I1;
+
+	LSeg(const vector<V>& a, const T& _I, const T1& _I1) {
+		int n = (int)a.size();
         I = _I;
+        I1 = _I1;
 		t.resize(4*n);
-        t1.resize(4*n);
+        t1.resize(4*n, I1);
         mark.resize(4*n);
-		a.resize(n+1);
-		copy(_a.begin(), _a.end(), a.begin()+1);
-		build(1, 1, n);
+		build(1, 0, n-1, a);
 	}
 
-	T make(V x) {
-        // TODO: Impl
-		T res = (T)x;
-		return res;
+    // TODO
+	inline T make(V x) {
+        return (T)x;
 	}
-    T combine(const T& x, const T& y) {
-        // TODO: Impl
-        /* add
-         */
-        T res = x + y;
-        /* min, max
-           T res = min(x, y);
-         */
-        return res;
+    inline T combine(const T& x, const T& y) {
+        return x+y;
     }
-    void push(int v, int tl, int tr) {
-        // TODO: impl
-        /* add
-         */
-        t[v] += t1[v]*(tr-tl+1);
-        /* min, max
-           t[v] += t1[v];
-         */
+    inline void merge(T1& x, const T1& y) {
+        x.mul = x.mul*y.mul;
+        x.add = y.mul*x.add + y.add;
+    }
+    inline void apply(int v, int tl, int tr) {
+        t[v] = t1[v].mul*t[v] + t1[v].add*(tr-tl+1);
+    }
 
+    void push(int v, int tl, int tr) {
+        apply(v, tl, tr);
         if (tl != tr) {
-            t1[2*v+1] = t1[2*v] = t1[v];
+            merge(t1[2*v], t1[v]);
+            merge(t1[2*v+1], t1[v]);
             mark[2*v+1] = mark[2*v] = 1;
         }
         mark[v] = 0;
+        t1[v] = I1;
     }
-	void build(int v, int tl, int tr) {
+
+	void build(int v, int tl, int tr, const vector<V>& a) {
 		if (tl == tr) {
 			t[v] = make(a[tl]);
 			return;
 		}
 		int md = (tl+tr)/2;
-		build(2*v, tl, md);
-		build(2*v+1, md+1, tr);
+		build(2*v, tl, md, a);
+		build(2*v+1, md+1, tr, a);
 		t[v] = combine(t[2*v], t[2*v+1]);
 	}
  
-    
     // range query
 	T qry(int v, int tl, int tr, int l, int r) {
         if (mark[v]) push(v, tl, tr);
@@ -92,13 +86,14 @@ struct LSeg {
     }
 
     // range update
-    void upd(int v, int tl, int tr, int l, int r, V val) {
+    void upd(int v, int tl, int tr, int l, int r, T1 val) {
         if (mark[v]) push(v, tl, tr);
+
         if (r < tl || l > tr) {
             return;
         }
         if (l <= tl && tr <= r) {
-            t1[v] = val;
+            merge(t1[v], val);
             push(v, tl, tr);
             return;
         }
