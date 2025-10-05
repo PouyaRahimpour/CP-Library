@@ -8,7 +8,7 @@ using ld = long double;
 #include "/home/pouya/dev/cp/lib/debug.cpp"
 #else
 #define dbg(...)
-#define TC solve
+#define Solve solve
 #endif
 #define nl '\n'
 
@@ -24,7 +24,7 @@ int32_t main() {
     cin >> t;
     #endif
     for (int i=1; i<=t; i++) {
-        TC(i);
+        Solve(i);
     }
     return 0;
 }
