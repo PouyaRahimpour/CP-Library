@@ -128,7 +128,7 @@ namespace __DEBUG_UTIL__ {
 
 #ifdef TESTCASE // this is becuase when working with generators sometimes I need debug but not testcases/solve
 void solve(int);
-void TC(int tc) {
+void Solve(int tc) {
     cerr << __DEBUG_UTIL__::BLUE << "------- TC " << tc << " -------\n" << __DEBUG_UTIL__::white;
 #ifdef TIME
     auto start = std::chrono::high_resolution_clock::now();
@@ -141,7 +141,24 @@ void TC(int tc) {
 #endif
     cerr << __DEBUG_UTIL__::BLUE << "--------------------\n" << __DEBUG_UTIL__::white;
 }
+
+#else
+void solve(int);
+void Solve(int tc) {
+#ifdef TIME
+    auto start = std::chrono::high_resolution_clock::now();
 #endif
+    solve(0);
+#ifdef TIME
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start);
+    cerr << __DEBUG_UTIL__::BLUE << (double)duration.count()/1000 << " sec\n" << __DEBUG_UTIL__::white;
+#endif
+}
+
+#endif
+
+
 
 
 /************************************************/
