@@ -133,7 +133,7 @@ void Solve(int tc) {
 #ifdef TIME
     auto start = std::chrono::high_resolution_clock::now();
 #endif
-    solve(0);
+    solve(tc);
 #ifdef TIME
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start);
@@ -148,7 +148,7 @@ void Solve(int tc) {
 #ifdef TIME
     auto start = std::chrono::high_resolution_clock::now();
 #endif
-    solve(0);
+    solve(tc);
 #ifdef TIME
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start);
