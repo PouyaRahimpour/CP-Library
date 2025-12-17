@@ -1,8 +1,10 @@
-#ifdef LOCAL
+#ifdef DEBUG
 #include "/home/pouya/dev/cp/lib/testlib.h"
+#define GENERATOR
 #include "/home/pouya/dev/cp/lib/debug.cpp"
 #else
 #include "testlib.h"
+#define dbg(...)
 #endif
 #include<bits/stdc++.h>
 using namespace std;

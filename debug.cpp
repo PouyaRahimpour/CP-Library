@@ -126,6 +126,8 @@ namespace __DEBUG_UTIL__ {
     }
 }
 
+#ifndef GENERATOR
+#ifndef VALIDATOR
 #ifdef TESTCASE // this is becuase when working with generators sometimes I need debug but not testcases/solve
 void solve(int);
 void Solve(int tc) {
@@ -156,6 +158,8 @@ void Solve(int tc) {
 #endif
 }
 
+#endif
+#endif
 #endif
 
 
