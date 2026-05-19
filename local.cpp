@@ -8,6 +8,8 @@
 #endif
 
 #if defined(GENERATOR) || defined(VALIDATOR)
+#undef TESTCASE
+#undef TIME
 #include "/home/pouya/dev/cp/lib/testlib.h"
 #endif
 
