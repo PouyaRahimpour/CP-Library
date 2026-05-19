@@ -1,7 +1,7 @@
-#ifdef DEBUG
-#include "/home/pouya/dev/cp/lib/testlib.h"
 #define GENERATOR
-#include "/home/pouya/dev/cp/lib/debug.cpp"
+#define DEBUG
+#ifdef LOCAL
+#include "/home/pouya/dev/cp/lib/local.cpp"
 #else
 #include "testlib.h"
 #define dbg(...)
@@ -11,7 +11,6 @@ using namespace std;
 using ll = long long;
 using ld = long double;
 #define nl endl
-
 
 int main (int argc, char* argv []) { 
     registerGen(argc, argv, 1);

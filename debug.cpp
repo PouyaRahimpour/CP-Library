@@ -1,10 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#define dbg(...) cerr << __DEBUG_UTIL__::outer << __LINE__ << ": [", __DEBUG_UTIL__::printer(#__VA_ARGS__, __VA_ARGS__)
-//mt19937 rnd(chrono::steady_clock::now().time_since_epoch().count());
-//#define TIME cerr << endl << "finished in " << clock()*1.0/CLOCKS_PER_SEC << " sec" << endl;
-
+//#define dbg(...) cerr << __DEBUG_UTIL__::outer << __LINE__ << ": [", __DEBUG_UTIL__::printer(#__VA_ARGS__, __VA_ARGS__)
 
 namespace __DEBUG_UTIL__ {
     const string WHITE = "\033[0;m";
@@ -125,44 +122,6 @@ namespace __DEBUG_UTIL__ {
         }
     }
 }
-
-#ifndef GENERATOR
-#ifndef VALIDATOR
-#ifdef TESTCASE // this is becuase when working with generators sometimes I need debug but not testcases/solve
-void solve(int);
-void Solve(int tc) {
-    cerr << __DEBUG_UTIL__::BLUE << "------- TC " << tc << " -------\n" << __DEBUG_UTIL__::white;
-#ifdef TIME
-    auto start = std::chrono::high_resolution_clock::now();
-#endif
-    solve(tc);
-#ifdef TIME
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start);
-    cerr << __DEBUG_UTIL__::BLUE << (double)duration.count()/1000 << " sec\n" << __DEBUG_UTIL__::white;
-#endif
-    cerr << __DEBUG_UTIL__::BLUE << "--------------------\n" << __DEBUG_UTIL__::white;
-}
-
-#else
-void solve(int);
-void Solve(int tc) {
-#ifdef TIME
-    auto start = std::chrono::high_resolution_clock::now();
-#endif
-    solve(tc);
-#ifdef TIME
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start);
-    cerr << __DEBUG_UTIL__::BLUE << (double)duration.count()/1000 << " sec\n" << __DEBUG_UTIL__::white;
-#endif
-}
-
-#endif
-#endif
-#endif
-
-
 
 
 /************************************************/
