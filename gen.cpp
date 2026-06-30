@@ -1,7 +1,7 @@
 #define GENERATOR
 #define DEBUG
 #ifdef LOCAL
-#include "/home/pouya/dev/cp/lib/local.cpp"
+#include "/home/pouya/dev/cp/lib/local.h"
 #else
 #include "testlib.h"
 #define dbg(...)

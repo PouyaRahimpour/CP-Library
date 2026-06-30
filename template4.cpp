@@ -6,7 +6,7 @@ using ld = long double;
 //#define TIME
 #define DEBUG
 #ifdef LOCAL
-#include "/home/pouya/dev/cp/lib/local.cpp"
+#include "local.cpp"
 #else
 #define dbg(...)
 #define Solve solve

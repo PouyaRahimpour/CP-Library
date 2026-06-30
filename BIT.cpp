@@ -16,9 +16,10 @@ struct BIT {
     int n;
     BIT(int _n) {
         n = _n+1;
-        t.resize(n+1);
+        t.resize(_n+1);
     }
     T qry(int idx) {
+        idx++;
         assert(idx >= 0); 
         T res = 0;
         while (idx) {
@@ -28,6 +29,7 @@ struct BIT {
         return res;
     }
     void add(int idx, int delta) {
+        idx++;
         assert(idx>0);
         while (idx<=n) {
             t[idx] += delta;
