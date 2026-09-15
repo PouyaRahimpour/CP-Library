@@ -1,21 +1,21 @@
 // custom controls
 
 #ifdef DEBUG
-#include "/home/pouya/dev/cp/lib/debug.cpp"
+#include "debug.cpp"
 #define dbg(...) cerr << __DEBUG_UTIL__::outer << __LINE__ << ": [", __DEBUG_UTIL__::printer(#__VA_ARGS__, __VA_ARGS__)
 #else
 #define dbg(...)
 #endif
 
-#if defined(GENERATOR) || defined(VALIDATOR)
+#if defined(GENERATOR) || defined(VALIDATOR) || defined(CHECKER)
 #undef TESTCASE
 #undef TIME
-#include "/home/pouya/dev/cp/lib/testlib.h"
+#include "testlib.h"
 #endif
 
 #if defined(TESTCASE) || defined(TIME) 
 #ifndef DEBUG
-#include "/home/pouya/dev/cp/lib/debug.cpp"
+#include "debug.cpp"
 #endif
 
 void solve(int);

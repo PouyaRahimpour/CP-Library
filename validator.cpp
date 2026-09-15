@@ -1,7 +1,7 @@
 #define VALIDATOR
 #define DEBUG
 #ifdef LOCAL
-#include "/home/pouya/dev/cp/lib/local.h"
+#include "local.h"
 #else
 #include "testlib.h"
 #define dbg(...)
