@@ -6,7 +6,7 @@ using ld = long double;
 //#define TIME
 #define DEBUG
 #ifdef LOCAL
-#include "local.cpp"
+#include "local.hpp"
 #else
 #define dbg(...)
 #define Solve solve
