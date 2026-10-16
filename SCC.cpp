@@ -12,72 +12,62 @@ using ld = long double;
 #endif
 #define nl '\n'
 
-
 struct SCC {
-    int n, c = 0, timer = 0;
-    vector<vector<int>> g, g1, g2;
-    vector<int> tin, tout;
-    vector<int> scc;
-    vector<int> topo;
+    int _n, c;
+    vector<vector<int>> _g, g;
+    vector<int> id, topo;
 
-    SCC(vector<vector<int>>& _g) {
-        n = (int)_g.size();
-        g = _g;
-        g1.resize(n);
-        g2.resize(n);
-        tin.resize(n);
-        tout.resize(n);
-        scc.resize(n, -1);
+    SCC(vector<vector<int>>& g_) {
+        c = 0;
+        _g = g_;
+        _n = (int)_g.size();
+        id.resize(_n, -1);
 
         make();
         topo_sort();
     }
     void make() {
+        vector<vector<int>> g_t(_n);
+        for (int u=0; u<_n; u++) {
+            for (int v: _g[u]) {
+                g_t[v].push_back(u);
+            }
+        }
+
+        vector<int> ord, vis(_n);
         auto dfs = [&] (auto&& self, int u) -> void {
-            tin[u] = timer++;
-            for (int v: g[u]) {
-                if (!tin[v]) {
+            vis[u] = 1;
+            for (int v: _g[u]) {
+                if (!vis[v]) {
                     self(self, v);
                 }
             }
-            tout[u] = timer++;
+            ord.push_back(u);
         };
+        for (int u=0; u<_n; u++) {
+            if (!vis[u]) {
+                dfs(dfs, u);
+            }
+        }
+        reverse(ord.begin(), ord.end());
+
         auto dfs1 = [&] (auto&& self, int u) -> void {
-            scc[u] = c;
-            for (int v: g1[u]) {
-                if (scc[v] == -1) {
+            id[u] = c-1;
+            for (int v: g_t[u]) {
+                if (id[v] == -1) {
                     self(self, v);
-                } else if (scc[v] != scc[u]) {
-                    g2[scc[v]].push_back(scc[u]);
+                } else if (id[v] != id[u]) {
+                    assert(id[v] < c);
+                    g[id[v]].push_back(id[u]);
                 }
             }
         };
-
-        for (int i=0; i<n; i++) {
-            if (!tin[i]) {
-                dfs(dfs, i);
-            }
-        }
-        vector<int> ord(n);
-        iota(ord.begin(), ord.end(), 0);
-        sort(ord.begin(), ord.end(), [&] (int i, int j) {
-                return tout[i] > tout[j];
-                });
-
-        for (int u=0; u<n; u++) {
-            for (int v: g[u]) {
-                g1[v].push_back(u);
-            }
-        }
-        for (int i=0; i<n; i++) {
-            if (scc[ord[i]]==-1) {
-                dfs1(dfs1, ord[i]);
+        for (int u: ord) {
+            if (id[u]==-1) {
                 c++;
+                g.resize(c);
+                dfs1(dfs1, u);
             }
-        }
-        for (int i=0; i<c; i++) {
-            sort(g2[i].begin(), g2[i].end());
-            g2[i].erase(unique(g2[i].begin(), g2[i].end()), g2[i].end());
         }
     }
 
@@ -85,27 +75,20 @@ struct SCC {
         vector<int> vis(c);
         auto dfs = [&] (auto&& self, int u) -> void {
             vis[u] = 1;
-            for (int v: g2[u]) {
+            for (int v: g[u]) {
                 if (!vis[v]) {
                     self(self, v);
-                } else if (vis[v] == 1) {
-                    // not a DAG, so SCC is wrong
-                    dbg("DAG is not DAG");
-                    assert(0);
                 }
             }
-            vis[u] = 2;
             topo.push_back(u);
         };
-        for (int i=0; i<c; i++) {
-            if (!vis[i]) {
-                dfs(dfs, i);
+        for (int u=0; u<c; u++) {
+            if (!vis[u]) {
+                dfs(dfs, u);
             }
         }
-        reverse(topo.begin(), topo.end());
     }
 };
-
 
 void solve(int tc) {
     int n, m; cin >> n >> m;
