@@ -2,7 +2,7 @@
 using namespace std;
 using ll = long long;
 using ld = long double;
-//#define TESTCASE
+#define TESTCASE
 #ifdef LOCAL
 #include "local.hpp"
 #else
