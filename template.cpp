@@ -2,9 +2,7 @@
 using namespace std;
 using ll = long long;
 using ld = long double;
-#define TESTCASE
-//#define TIME
-#define DEBUG
+//#define TESTCASE
 #ifdef LOCAL
 #include "local.hpp"
 #else
@@ -13,7 +11,7 @@ using ld = long double;
 #endif
 #define nl '\n'
 
-void solve([[ maybe_unused ]] int tc) {
+void solve([[ maybe_unused ]] uint32_t tc) {
 }
 
 int32_t main() {

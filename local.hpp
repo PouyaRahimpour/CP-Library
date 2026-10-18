@@ -24,9 +24,9 @@
 
 #if defined(TESTCASE) || defined(TIME)
 
-void solve(int);
+void solve(uint32_t);
 
-inline void Solve(int tc) {
+inline void Solve(uint32_t tc) {
 #ifdef TESTCASE
     std::cerr << debug_util::blue
               << "------- TC " << tc << " -------\n"
