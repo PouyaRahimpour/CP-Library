@@ -1,65 +1,73 @@
-#include<bits/stdc++.h>
-using namespace std;
-using ll = long long;
-using ld = long double;
-#ifdef LOCAL
-#include "/home/pouya/dev/cp/lib/debug.cpp"
-#else
-#define dbg(...)
-#define TC solve
-#endif
-#define nl '\n'
-
 struct Q {
-    ll p, q;
+    ll a, b;
+    // a/b
+    Q(ll _a, ll _b): a(_a), b(_b) {
+        make();
+    }
+    Q(ll _a): a(_a), b(1) {}
 
-    Q operator+(Q& other) {
-        ll t1 = p*other.q + q*other.p;
-        ll t2 = q*other.q;
-        ll g = gcd(t1, t2);
-        assert(t2 != 0);
-        return Q{t1/g, t2/g};
-    }
-    Q operator*(Q& other) {
-        ll t1 = p*other.p;
-        ll t2 = q*other.q;
-        ll g = gcd(t1, t2);
-        assert(t2 != 0);
-        return Q{t1/g, t2/g};
-    }
-    Q operator/(Q& other) {
-        ll t1 = p*other.q;
-        ll t2 = other.p*q;
-        ll g = gcd(t1, t2);
-        assert(t2 != 0);
-        return Q{t1/g, t2/g};
-    }
-    bool operator==(Q& other) const {
-        if (p != other.p || q != other.q) {
-            return 0;
+    void make() {
+        assert(b != 0);
+        ll g = gcd(a, b);
+        a /= g;
+        b /= g;
+        if (b < 0) {
+            a *= -1;
+            b *= -1;
         }
-        return 1;
     }
-    friend ostream& operator<<(ostream& os, const Q& obj) {
-        os << '[' << obj.p << ',' << obj.q << ']';
-        return os;
-    };
+    Q operator +(const Q& other) const {
+        return Q{a * other.b + b * other.a, b * other.b};
+    }
+    Q operator -(const Q& other) const {
+        return Q{a * other.b - b * other.a, b * other.b};
+    }
+    Q operator *(const Q& other) const {
+        return Q{a * other.a , b * other.b};
+    }
+    Q inv() const {
+        return Q{b, a};
+    }
+    Q operator /(const Q& other) const {
+        return *this * other.inv();
+    }
+
+    void operator +=(const Q& other) {
+        *this = *this + other;
+    }
+    void operator -=(const Q& other) {
+        *this = *this - other;
+    }
+    void operator *=(const Q& other) {
+        *this = *this * other;
+    }
+    void operator /=(const Q& other) {
+        *this = *this / other;
+    }
+
+    bool operator <=(const Q& other) const {
+        return a*other.b <= other.a*b;
+    }
+    bool operator >=(const Q& other) const {
+        return  other.a*b <= a*other.b;
+    }
+    bool operator ==(const Q& other) const {
+        return *this <= other && *this >= other;
+    }
+    bool operator !=(const Q& other) const {
+        return !(*this == other);
+    }
+    bool operator <(const Q& other) const {
+        return *this <= other && *this != other;
+    }
+    bool operator >(const Q& other) const {
+        return *this >= other && *this != other;
+    }
+
+    friend string to_string(const Q& x) {
+        return to_string(x.a) + (x.b != 1 ? "/" + to_string(x.b): "");
+    }
+    friend ostream& operator <<(ostream& o, const Q& x) {
+        return o << to_string(x);
+    }
 };
-
-void solve(int tc) {
-    Q q1 = Q{5, 4};
-    Q q2 = Q{5, 4};
-    Q ans = q1+q2*q1/q1;
-    cout << ans << nl;
-}
-
-int32_t main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    int t = 1;
-    cin >> t;
-    for (int i=1; i<=t; i++) {
-        TC(i);
-    }
-    return 0;
-}
